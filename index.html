@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PF 2023</title>
+  <link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container-fluid my-2">
+<div class="card">
+  <div class="card-body">
+    <input class="form-control mb-3" id="text" type="text" placeholder="zadejte své jméno">
+    <select class="form-select" id="barva">
+      <option value="#157bbb">Modrá</option>
+      <option value="#111111">Černá</option>
+      <option value="#444444">Šedá</option>
+    </select>
+    <div class="mx-auto" id="pf">
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  var canvas = document.createElement('canvas'),
+    ctx = canvas.getContext('2d');
+
+canvas.width  = 830;
+canvas.height = 403;
+document.getElementById("pf").appendChild(canvas);
+
+var barva = document.getElementById("barva").value;
+
+function sendToCanvas( ob ){
+  var img = new Image();
+  img.addEventListener('load', function(){
+    ctx.drawImage(img, 0, 20, canvas.width, canvas.height);
+    ctx.font = ob.fontWeight+' '+ob.fontSize+' '+ob.fontFamily;
+    ctx.textAlign = 'center';
+    ctx.fillStyle = ob.color;
+    ctx.fillText(ob.text, canvas.width/3.2, canvas.height/1.2);
+  });
+  img.src = ob.image;
+}
+
+
+
+// Defaults
+var cvsObj = {
+    text       : "",
+    image      : "pf2023.png",
+    fontFamily : "Times",
+    fontWeight : "bold",
+    fontSize   : "230%",
+    color      : document.getElementById("barva").value
+};
+
+sendToCanvas( cvsObj ); // Send default data on init
+
+document.getElementById("text").addEventListener("input", function(){
+  cvsObj.text = this.value; // Modify cvsObj text
+  sendToCanvas( cvsObj );   // Send custom data on input
+});
+</script>
+</body>
+</html>
